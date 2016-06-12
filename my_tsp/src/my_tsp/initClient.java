@@ -33,14 +33,21 @@ public class initClient {
 
 		String str = "";
 		int[] temp = new int[4];// 用来存储用户的起始点和终点。
+		
+		boolean flag = true;
+		while(flag)
 		for (int j = 0; j < 4; j++) {
-			temp[j] = (int) (Math.random() * 100);
+			temp[j] = (int) (Math.random() * 50);
+			 int distanceTemp = (int) (Math.sqrt((temp[0] - temp[2]) * (temp[0] - temp[2]) + (temp[1] - temp[3]) * (temp[1] - temp[3])));
+			if(distanceTemp<35){
 			str = str + " " + temp[j];
+			flag = false;
+			}
 		}
 		str = str + " "
 				+ (int) (Math
 						.sqrt((temp[0] - temp[2]) * (temp[0] - temp[2]) + (temp[1] - temp[3]) * (temp[1] - temp[3]))
-						+ (int) (Math.random() * 30) + 150);
+						+ (int) (Math.random() * 30));
 		return str;
 	}
 
@@ -153,5 +160,9 @@ public class initClient {
 		clientCostValue[clientstart[0].length - 1][clientstart[0].length - 1] = 0;
 
 		return clientCostValue;
+	}
+	
+	public static void main (String[] args){ //生成数据
+		
 	}
 }

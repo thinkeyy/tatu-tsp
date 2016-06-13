@@ -112,13 +112,15 @@ public class tabu {
 		}
 
 		while (j < ghh.length) {
+			//System.out.println(ghh[j]);
 			if (i < carstemp.size()) {
+				//System.out.println(i);
 				if (carstemp.get(i).isStatus()) {
 
 					if (carc.checkBack(carstemp.get(i), clientstart[0][ghh[j]], clientstart[1][ghh[j]],
 							clientdone[0][ghh[j]], clientdone[1][ghh[j]])
 							&& carc.checktime(carstemp.get(i), clientstart[0][ghh[j]], clientstart[1][ghh[j]],
-									clientdone[0][ghh[j]], clientdone[1][ghh[j]], clienttime[ghh[j]] ,0)) {
+									clientdone[0][ghh[j]], clientdone[1][ghh[j]], clienttime[ghh[j]])) {
 
 						len = len + Math.sqrt((clientstart[0][ghh[j]] - carstemp.get(i).getX())
 								* (clientstart[0][ghh[j]] - carstemp.get(i).getX())
@@ -186,10 +188,11 @@ public class tabu {
 				i++;
 			}
 		}
-		// System.out.print("初始化");
-		// for(int k = 0; k < Ghh.length; k++) {
-		// System.out.print(+Ghh[k]+"\t");
-		// }
+		 System.out.print("初始化");
+		
+//		 for(int k = 0; k < Ghh.length; k++) {
+//		 System.out.print(+Ghh[k]+"\t");
+//		 }
 	}
 
 	public void copyGh(int[] Gha, int[] Ghb) {

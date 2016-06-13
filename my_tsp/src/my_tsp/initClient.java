@@ -35,19 +35,20 @@ public class initClient {
 		int[] temp = new int[4];// 用来存储用户的起始点和终点。
 		
 		boolean flag = true;
-		while(flag)
+		while(flag){
 		for (int j = 0; j < 4; j++) {
 			temp[j] = (int) (Math.random() * 50);
-			 int distanceTemp = (int) (Math.sqrt((temp[0] - temp[2]) * (temp[0] - temp[2]) + (temp[1] - temp[3]) * (temp[1] - temp[3])));
-			if(distanceTemp<35){
-			str = str + " " + temp[j];
-			flag = false;
-			}
+			
 		}
+		int distanceTemp = (int) (Math.sqrt((temp[0] - temp[2]) * (temp[0] - temp[2]) + (temp[1] - temp[3]) * (temp[1] - temp[3])));
+		if(distanceTemp<35){
+		str = str + " " + temp[0]+ " " + temp[1]+ " " + temp[2]+ " " + temp[3];
+		flag = false;
 		str = str + " "
-				+ (int) (Math
-						.sqrt((temp[0] - temp[2]) * (temp[0] - temp[2]) + (temp[1] - temp[3]) * (temp[1] - temp[3]))
-						+ (int) (Math.random() * 30));
+				+ (int) (Math.sqrt((temp[0] - temp[2]) * (temp[0] - temp[2]) + (temp[1] - temp[3]) * (temp[1] - temp[3]))
+					+Math.sqrt((temp[0] - 25) * (temp[0] -25) + (temp[1] - 25) * (temp[1] - 25))+ (int) (Math.random() * 30)+1);
+		}
+		}
 		return str;
 	}
 
@@ -162,7 +163,13 @@ public class initClient {
 		return clientCostValue;
 	}
 	
-	public static void main (String[] args){ //生成数据
-		
-	}
+//	public static void main (String[] args){ //生成数据
+//		initClient initClient = new initClient(250);
+//		String string = "";
+//		for(int i=0;i<250;i++){
+//		string = string+initClient.randomInitClient()+"\n";
+//		}
+//		//System.out.println(string);
+//		initClient.WriteStringToFile("d://data.txt", string);
+//	}
 }

@@ -17,16 +17,18 @@ public class carController {
 	}
 
 	// 判断car能否在客户规定的时间内将其运输到目的地。
-	public boolean checktime(car c, int startx, int starty, int endx, int endy, int time ,int t) {//time 为客户的服务时间，t为当前调度时间
+	public boolean checktime(car c, int startx, int starty, int endx, int endy, int time) {//time 为客户的服务时间，t为当前调度时间
 		int x = c.getX();
 		int y = c.getY();
 		boolean flag = false;
 		double tempdistance = Math.sqrt((startx - x) * (startx - x) + (starty - y) * (starty - y))
 				+ Math.sqrt((startx - endx) * (startx - endx) + (starty - endy) * (starty - endy));
-
-		if (time > (c.getTime() + tempdistance + t)) {
+		//System.out.println(time+">");
+		//System.out.println((c.getTime() + tempdistance));
+		if (time >= (c.getTime() + tempdistance)) {
 			flag = true;
 		}
+		//System.out.println(flag);
 		return flag;
 	}
 
@@ -42,6 +44,7 @@ public class carController {
 		if (overlen > 0) {
 			flag = true;
 		}
+		//System.out.println(flag);
 		return flag;
 	}
 

@@ -17,17 +17,21 @@ public class carController {
 	}
 
 	// 判断car能否在客户规定的时间内将其运输到目的地。
-	public boolean checktime(car c, int startx, int starty, int endx, int endy, int time) {//time 为客户的服务时间，t为当前调度时间
+	public boolean checktime(car c, int startx, int starty, int endx, int endy, int time ,int t ) {//time 为客户的服务时间，t为当前调度时间
 		int x = c.getX();
 		int y = c.getY();
 		boolean flag = false;
 		double tempdistance = Math.sqrt((startx - x) * (startx - x) + (starty - y) * (starty - y))
 				+ Math.sqrt((startx - endx) * (startx - endx) + (starty - endy) * (starty - endy));
-		//System.out.println(time+">");
-		//System.out.println((c.getTime() + tempdistance));
-		if (time >= (c.getTime() + tempdistance)) {
+		
+		int timetemp =( t >= c.getTime()? t:c.getTime());
+//		if(t>180){
+//			System.out.println(time+t+">");System.out.println(t+">"+c.getTime());
+//			System.out.println(timetemp + tempdistance);System.out.println(tempdistance);}
+		if (time+t >= (timetemp + tempdistance)) {
 			flag = true;
 		}
+		
 		//System.out.println(flag);
 		return flag;
 	}
@@ -72,6 +76,19 @@ public class carController {
 		for (int i = 0; i < carlist.size(); i++) {
 			car c = carlist.get(i);
 			c.setTime(0);
+		}
+	}
+	public void setCarsTimeStatu(ArrayList<car> carlist , int t) {
+
+		for (int i = 0; i < carlist.size(); i++) {
+			car c = carlist.get(i);
+			int t1 = c.getTime();
+			if(t1>t){
+				c.setTimeStatu(false);
+			}else{
+				c.setTimeStatu(true);
+				c.setTime(t);
+			}
 		}
 	}
 

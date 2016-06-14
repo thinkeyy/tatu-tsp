@@ -12,7 +12,7 @@ public class tububycars {
 	private int tabuLen;// 禁忌长度
 	private int cityNum; // 客户数量，编码长度
 	private int windowNum;
-
+	private int T;// 迭代次数
 	private int[] clienttime;// 客户的等待时间
 	private int[][] clientstart;// 客户上车点
 	private int[][] clientdone;// 客户下车点
@@ -53,13 +53,14 @@ public class tububycars {
 	 *            禁忌长度
 	 * 
 	 **/
-	public tububycars(int n, int g, int c, int m, int wm, int w) {
+	public tububycars(int n, int g, int c, int m, int wm, int w ,int t) {
 		cityNum = n;
 		MAX_GEN = g;
 		N = c;
 		tabuLen = m;
 		windowNum = wm;
 		this.w = w;
+		T = t;
 	}
 
 	// 给编译器一条指令，告诉它对被批注的代码元素内部的某些警告保持静默
@@ -107,7 +108,7 @@ public class tububycars {
 			carstemp.add(ctemp);
 		}
 		if (carstemp.isEmpty() || carstemp.size() == 0) {
-			car c = new car(200, 25, 25, true, carstemp.size(), 0);
+			car c = new car(200, 25, 25, true, carstemp.size(), 0, true);
 			carstemp.add(c);
 		}
 
@@ -115,12 +116,12 @@ public class tububycars {
 			//System.out.println(ghh[j]);
 			if (i < carstemp.size()) {
 				//System.out.println(i);
-				if (carstemp.get(i).isStatus()) {
+				if (carstemp.get(i).isStatus()&&carstemp.get(i).isTimeStatu()) {
 
 					if (carc.checkBack(carstemp.get(i), clientstart[0][ghh[j]], clientstart[1][ghh[j]],
 							clientdone[0][ghh[j]], clientdone[1][ghh[j]])
 							&& carc.checktime(carstemp.get(i), clientstart[0][ghh[j]], clientstart[1][ghh[j]],
-									clientdone[0][ghh[j]], clientdone[1][ghh[j]], clienttime[ghh[j]])) {
+									clientdone[0][ghh[j]], clientdone[1][ghh[j]], clienttime[ghh[j]], T)) {
 
 						len = len + Math.sqrt((clientstart[0][ghh[j]] - carstemp.get(i).getX())
 								* (clientstart[0][ghh[j]] - carstemp.get(i).getX())
@@ -161,7 +162,7 @@ public class tububycars {
 				}
 			} else {
 				// 添加新车
-				car c = new car(200, 25, 25, true, carstemp.size(), 0);
+				car c = new car(200, 25, 25, true, carstemp.size(), 0, true);
 				carstemp.add(c);
 			}
 		}
@@ -269,7 +270,7 @@ public class tububycars {
 		initGroup(windowNum * w, windowNum * (w + 1));
 		t = 0;
 		copyGh(Ghh, bestGh);// 复制当前编码Ghh到最好编码bestGh
-		bestEvaluation = (double) evaluate(Ghh, cars).get("size");
+		bestEvaluation = (int) evaluate(Ghh, cars).get("size");
 
 		while (t < MAX_GEN) { // MAX_GEN :1000 t:当前代数
 			nn = 0;
@@ -279,7 +280,7 @@ public class tububycars {
 				if (panduan(tempGhh) == 0) // 判断编码是否在禁忌表中
 				{
 					// 不在
-					tempEvaluation = (double) evaluate(tempGhh, cars).get("size");
+					tempEvaluation = (int) evaluate(tempGhh, cars).get("size");
 					if (tempEvaluation < localEvaluation) {
 						copyGh(tempGhh, LocalGhh);
 						localEvaluation = tempEvaluation;
@@ -305,21 +306,12 @@ public class tububycars {
 		carstt.addAll((ArrayList<car>) evaluate(bestGh, cars).get("carstemp"));
 
 		System.out.println("最佳调度：");
-		for (int x = 0; x < carstt.size(); x++) {
-			System.out.print("车辆：" + carstt.get(x).getPosition());
-			// System.out.print("\t剩余电量：" + carstt.get(x).getCar_len());
-			System.out.print("\t车辆状态：" + (carstt.get(x).isStatus() ? "等待新用户" : "返回仓库充电"));
-			System.out.print("\t乘客：");
-			for (int i = 0; i < carstt.get(x).getClients().size(); i++) {
-				System.out.print(carstt.get(x).getClients().get(i) + "\t");
-			}
-			System.out.println("");
-		}
+	
 		System.out.print("最佳长度出现代数：\t");
 		System.out.println(bestT);
 		System.out.print("最少浪费长度：\t");
 		System.out.println((double) evaluate(tempGhh, cars).get("len"));
-		carc.restCarsTime(carstt);
+		//carc.restCarsTime(carstt);
 		return carstt;
 	}
 

@@ -12,6 +12,7 @@ public class car implements Cloneable {
 	int oldx; // 车辆的位置：x坐标
 	int oldy; // 车辆的位置：y坐标
 	boolean status;// 车辆拉客状态
+	boolean timeStatu;//车辆时间状态
 	int position;// 车辆在carlist中的下标。
 	ArrayList<Integer> clients = new ArrayList<Integer>();// 记录服务的客户。
 	int time;// 记录本次调度所有客户的时间
@@ -40,13 +41,22 @@ public class car implements Cloneable {
 		this.position = position;
 	}
 
-	public car(int cl, int x, int y, boolean status, int p, int t) {
+	public car(int cl, int x, int y, boolean status, int p, int t, Boolean timestatu) {
 		this.car_len = cl;
 		this.x = x;
 		this.y = y;
 		this.position = p;
 		this.status = status;
 		this.time = t;
+		this.timeStatu = timestatu;
+	}
+
+	public boolean isTimeStatu() {
+		return timeStatu;
+	}
+
+	public void setTimeStatu(boolean timeStatu) {
+		this.timeStatu = timeStatu;
 	}
 
 	public double getCar_len() {

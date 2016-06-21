@@ -18,7 +18,8 @@ public class tububycars {
 	private int[][] clientdone;// 客户下车点
 	private int[] distance;// 客户下车点
 	private int bestT;// 最佳出现代数
-
+	
+	ArrayList<car> carstt = new ArrayList<car>();
 	// private ArrayList<car> cars = new ArrayList<car>();
 
 	private int[] Ghh;// 初始路径编码
@@ -263,15 +264,15 @@ public class tububycars {
 		}
 
 	}
-
+	String string = "";
 	@SuppressWarnings("unchecked")
 	public ArrayList<car> solve(ArrayList<car> cars) {
 		int nn;
 		initGroup(windowNum * w, windowNum * (w + 1));
 		t = 0;
 		copyGh(Ghh, bestGh);// 复制当前编码Ghh到最好编码bestGh
-		bestEvaluation = (int) evaluate(Ghh, cars).get("size");
-
+		bestEvaluation = (double) evaluate(Ghh, cars).get("len");
+		
 		while (t < MAX_GEN) { // MAX_GEN :1000 t:当前代数
 			nn = 0;
 			localEvaluation = Integer.MAX_VALUE;
@@ -280,7 +281,7 @@ public class tububycars {
 				if (panduan(tempGhh) == 0) // 判断编码是否在禁忌表中
 				{
 					// 不在
-					tempEvaluation = (int) evaluate(tempGhh, cars).get("size");
+					tempEvaluation = (double) evaluate(Ghh, cars).get("len");
 					if (tempEvaluation < localEvaluation) {
 						copyGh(tempGhh, LocalGhh);
 						localEvaluation = tempEvaluation;
@@ -293,24 +294,35 @@ public class tububycars {
 				copyGh(LocalGhh, bestGh);
 
 				bestEvaluation = localEvaluation;
-
+				
+				carstt.clear();
+				//carstt.addAll((ArrayList<car>) evaluate(bestGh, cars).get("carstemp"));
+				for (car c : (ArrayList<car>) evaluate(bestGh, cars).get("carstemp")) {
+					car ctemp = (car) c.clone();
+					carstt.add(ctemp);
+				}
 			}
 			copyGh(LocalGhh, Ghh);// 将当前最好的本地路径，作为新的初始路径
 
 			// 解禁忌表，LocalGhh加入禁忌表
 			jiejinji(LocalGhh);
+			string = string + t +"\t"+bestEvaluation+"\n";
 			t++;
+			
 		}
-
-		ArrayList<car> carstt = new ArrayList<car>();
-		carstt.addAll((ArrayList<car>) evaluate(bestGh, cars).get("carstemp"));
+		
+		initClient initClient = new initClient(200);
+		initClient.WriteStringToFile("src/my_tsp/result.txt", string);
+		
+		
+		
 
 		System.out.println("最佳调度：");
 	
 		System.out.print("最佳长度出现代数：\t");
 		System.out.println(bestT);
 		System.out.print("最少浪费长度：\t");
-		System.out.println((double) evaluate(tempGhh, cars).get("len"));
+		System.out.println(bestEvaluation);
 		//carc.restCarsTime(carstt);
 		return carstt;
 	}

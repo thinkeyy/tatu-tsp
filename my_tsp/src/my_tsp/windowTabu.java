@@ -30,7 +30,7 @@ public class windowTabu {
 				System.out.println("");
 			}
 			System.out.println("µÚ" + w + "µ÷¶È£º");
-			tububycars tabu = new tububycars(200, 2000, 2000, 200, 20, w, w*30);
+			tububycars tabu = new tububycars(200, 1000, 2000, 200, 20, w, w*30);
 			tabu.init("src/my_tsp/data.txt");
 			cars = tabu.solve(cars);
 			
